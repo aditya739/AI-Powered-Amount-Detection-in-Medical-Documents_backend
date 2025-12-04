@@ -26,23 +26,24 @@ app.get('/health', (req, res) => {
 
 app.post('/extract-amounts', upload.single('file'), async (req, res) => {
     try {
-        // Input validation (text-only for Vercel)
-        if (!req.body.text) {
+        // Input validation
+        if (!req.file && !req.body.text) {
             return res.status(400).json({ 
-                error: 'Text input is required. Image upload not supported on Vercel.' 
-            });
-        }
-        
-        if (req.file) {
-            return res.status(400).json({ 
-                error: 'Image upload not supported on Vercel. Use text input only.' 
+                error: 'Either an image file or text must be provided' 
             });
         }
 
         let rawText = '';
         let ocrResult = {};
 
-        if (req.body.text) {
+        if (req.file) {
+            // Process image with OCR
+            ocrResult = await processImage(req.file.buffer);
+            if (ocrResult.error) {
+                return res.status(500).json({ error: ocrResult.error });
+            }
+            rawText = ocrResult.text || '';
+        } else if (req.body.text) {
             // Use provided text directly
             rawText = req.body.text.trim();
             if (!rawText) {
