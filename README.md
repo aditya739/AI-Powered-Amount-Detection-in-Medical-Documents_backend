@@ -1,6 +1,6 @@
-# AI-Powered Amount Detection in Medical Bills (Node.js)
+# Intelligent Amount Detection in Medical Bills (Node.js)
 
-A robust Node.js/Express backend service that intelligently extracts, normalizes, and classifies monetary values from medical bills. Supports both image processing (via OCR) and direct text input with advanced error correction and context-aware classification.
+A robust Node.js/Express backend service that extracts, normalizes, and classifies monetary values from medical bills using advanced pattern recognition and rule-based processing. Supports both image processing (via OCR) and direct text input with systematic error correction and context-aware classification.
 
 ## Table of Contents
 
@@ -21,7 +21,7 @@ A robust Node.js/Express backend service that intelligently extracts, normalizes
 
 ## Problem Statement
 
-Design a service that extracts financial amounts from medical bills or receipts (typed or scanned, possibly crumpled or partially visible). The system handles OCR errors, digit corrections, classification by context, and produces final structured JSON with provenance.
+Design a service that extracts financial amounts from medical bills or receipts (typed or scanned, possibly crumpled or partially visible). The system uses regex-based pattern matching, systematic OCR error correction, rule-based classification by context, and produces structured JSON with provenance tracking.
 
 ## Project Flow
 
@@ -234,11 +234,11 @@ server.js
 ## Features
 
 ### Core Capabilities
-- **OCR Processing**: Advanced text extraction from medical bill images using Tesseract.js
-- **Smart Extraction**: Regex-based pattern matching for amounts, currencies, and percentages
-- **Error Correction**: Intelligent normalization of common OCR errors (e.g., 'O'→'0', 'l'→'1', 'S'→'5')
-- **Context Classification**: Rule-based categorization of amounts (Total, Paid, Due, Tax, Discount, etc.)
-- **Confidence Scoring**: Quality assessment of extraction results
+- **OCR Processing**: Text extraction from medical bill images using Tesseract.js
+- **Pattern Recognition**: Advanced regex-based matching for amounts, currencies, and percentages
+- **Error Correction**: Systematic normalization of common OCR errors (e.g., 'O'→'0', 'l'→'1', 'S'→'5')
+- **Context Classification**: Rule-based categorization using keyword matching (Total, Paid, Due, Tax, Discount, etc.)
+- **Confidence Scoring**: Mathematical assessment of extraction reliability
 - **REST API**: Clean, structured JSON responses with comprehensive metadata
 
 ### Supported Formats
@@ -440,7 +440,7 @@ For detailed test cases and validation scenarios, see **[TEST_CASES.md](TEST_CAS
 
 ### Amount Classification Rules
 
-The system uses context-aware rules to classify extracted amounts:
+The system uses rule-based keyword matching to classify extracted amounts:
 
 | Type | Keywords | Examples |
 |------|----------|----------|
