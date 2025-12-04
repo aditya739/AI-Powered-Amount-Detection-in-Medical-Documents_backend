@@ -1,6 +1,46 @@
 # Test Cases for Bill Amount Extractor
 
-This document contains various test cases to validate the amount extraction functionality.
+This document contains comprehensive test cases to validate the amount extraction functionality.
+
+## Sample curl/Postman Requests to Test Your Endpoints
+
+### Postman Requests:
+
+**1. Text Extraction:**
+```
+Method: POST
+URL: https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
+Body: form-data
+  Key: text
+  Value: Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%
+```
+
+**2. Image Upload with OCR:**
+```
+Method: POST
+URL: https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
+Body: form-data
+  Key: file
+  Value: [Select medical bill image file]
+```
+
+### cURL Requests:
+
+**1. Text Extraction:**
+```bash
+curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
+  -F "text=Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%"
+```
+
+**2. Image Upload with OCR:**
+```bash
+curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
+  -F "file=@/path/to/your/medical-bill.jpg"
+```
+
+**Note:** First request may take 30-60 seconds due to cold start. Subsequent requests are fast.
+
+---
 
 ## Test Input Examples
 
@@ -61,19 +101,20 @@ Expected: Should handle Indian number formatting
 
 ## Running Tests
 
-### Manual Testing with Postman
+### Manual Testing
 
-1. **Start the server**
-   ```bash
-   npm start
-   ```
+**Using Postman:**
+- Method: POST
+- URL: https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
+- Body: form-data
+- Key: text or file
+- Value: [Use any input from test cases above]
 
-2. **Test each case in Postman**
-   - Method: POST
-   - URL: http://localhost:8000/extract-amounts
-   - Body: form-data
-   - Key: text
-   - Value: [Use any input from above]
+**Using cURL:**
+```bash
+curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
+  -F "text=[Use any input from test cases above]"
+```
 
 ### Expected Response Format
 

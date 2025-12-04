@@ -347,12 +347,13 @@ bill-amount-extractor/
 
 ### Endpoint Overview
 
-**Available Deployments:**
+**Production API:**
 
-| Deployment | Base URL | Text Support | Image/OCR Support |
-|------------|----------|--------------|-------------------|
-| **Production (Render)** | `https://ai-powered-amount-detection-in-medical-wwxb.onrender.com` | Yes | Yes |
-| **Local Development** | `http://localhost:8000` | Yes | Yes |
+| Feature | Status |
+|---------|--------|
+| **Base URL** | `https://ai-powered-amount-detection-in-medical-wwxb.onrender.com` |
+| **Text Support** | Yes |
+| **Image/OCR Support** | Yes |
 
 **Main Endpoints:**
 - `GET /health` - Health check
@@ -364,18 +365,8 @@ bill-amount-extractor/
 
 #### Test 1: Basic Text Extraction
 
-**Production (Render):**
 ```http
 POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
-Content-Type: multipart/form-data
-
-Form Data:
-- text: "Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%"
-```
-
-**Local Development:**
-```http
-POST http://localhost:8000/extract-amounts
 Content-Type: multipart/form-data
 
 Form Data:
@@ -384,18 +375,8 @@ Form Data:
 
 #### Test 2: Image Upload & OCR
 
-**Production (Render):**
 ```http
 POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
-Content-Type: multipart/form-data
-
-Form Data:
-- file: [Upload your medical bill image]
-```
-
-**Local Development:**
-```http
-POST http://localhost:8000/extract-amounts
 Content-Type: multipart/form-data
 
 Form Data:
@@ -435,7 +416,6 @@ Form Data:
 
 ### Testing with cURL
 
-**Production (Render):**
 ```bash
 # Text extraction
 curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
@@ -443,17 +423,6 @@ curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/ex
 
 # Image upload with OCR
 curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
-  -F "file=@/path/to/your/bill.jpg"
-```
-
-**Local Development:**
-```bash
-# Text extraction
-curl -X POST http://localhost:8000/extract-amounts \
-  -F "text=Total: INR 1200 | Paid: 1000 | Due: 200"
-
-# Image upload
-curl -X POST http://localhost:8000/extract-amounts \
   -F "file=@/path/to/your/bill.jpg"
 ```
 
@@ -735,5 +704,4 @@ curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/ex
 **Next Steps:**
 1. Test the production API at Render
 2. Check [TEST_CASES.md](TEST_CASES.md) for comprehensive testing
-3. Run locally with `npm start` for development
 
