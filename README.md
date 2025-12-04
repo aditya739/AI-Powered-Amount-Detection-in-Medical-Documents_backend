@@ -2,7 +2,7 @@
 
 A robust Node.js/Express backend service that intelligently extracts, normalizes, and classifies monetary values from medical bills. Supports both image processing (via OCR) and direct text input with advanced error correction and context-aware classification.
 
-##  Table of Contents
+## Table of Contents
 
 1. [Problem Statement](#-problem-statement)
 2. [Project Flow](#-project-flow)
@@ -19,11 +19,11 @@ A robust Node.js/Express backend service that intelligently extracts, normalizes
 13. [Development & Customization](#️-development--customization)
 14. [License & Support](#-license--support)
 
-##  Problem Statement
+## Problem Statement
 
 Design a service that extracts financial amounts from medical bills or receipts (typed or scanned, possibly crumpled or partially visible). The system handles OCR errors, digit corrections, classification by context, and produces final structured JSON with provenance.
 
-##  Project Flow
+## Project Flow
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
@@ -57,7 +57,7 @@ Design a service that extracts financial amounts from medical bills or receipts 
 - Return labeled amounts with currency and provenance
 - Complete structured JSON with confidence scores
 
-##  System Architecture
+## System Architecture
 
 ### Complete Processing Flow
 
@@ -231,15 +231,15 @@ server.js
     └── src/extractor.js (Currency detection)
 ```
 
-##  Features
+## Features
 
 ### Core Capabilities
-- **🔍 OCR Processing**: Advanced text extraction from medical bill images using Tesseract.js
-- **💰 Smart Extraction**: Regex-based pattern matching for amounts, currencies, and percentages
-- **🔧 Error Correction**: Intelligent normalization of common OCR errors (e.g., 'O'→'0', 'l'→'1', 'S'→'5')
-- **🏷️ Context Classification**: Rule-based categorization of amounts (Total, Paid, Due, Tax, Discount, etc.)
-- **📊 Confidence Scoring**: Quality assessment of extraction results
-- **🌐 REST API**: Clean, structured JSON responses with comprehensive metadata
+- **OCR Processing**: Advanced text extraction from medical bill images using Tesseract.js
+- **Smart Extraction**: Regex-based pattern matching for amounts, currencies, and percentages
+- **Error Correction**: Intelligent normalization of common OCR errors (e.g., 'O'→'0', 'l'→'1', 'S'→'5')
+- **Context Classification**: Rule-based categorization of amounts (Total, Paid, Due, Tax, Discount, etc.)
+- **Confidence Scoring**: Quality assessment of extraction results
+- **REST API**: Clean, structured JSON responses with comprehensive metadata
 
 ### Supported Formats
 - **Images**: PNG, JPG, JPEG, GIF, BMP, TIFF
@@ -247,7 +247,7 @@ server.js
 - **Currencies**: INR, USD, EUR, GBP, and symbol-based detection (₹, $, €, £)
 - **Amount Types**: Bills, payments, dues, taxes, discounts, fees, charges
 
-##  Project Structure
+## Project Structure
 
 ```
 bill-amount-extractor/
@@ -265,7 +265,7 @@ bill-amount-extractor/
 └── README.md          # This documentation
 ```
 
-##  Quick Start
+## Quick Start
 
 ### Prerequisites
 - **Node.js** (v14 or higher): Download from https://nodejs.org/
@@ -302,7 +302,7 @@ bill-amount-extractor/
    - Check console for "Server running on http://localhost:8000"
    - API endpoint: `POST /extract-amounts`
 
-##  API Testing Guide
+## API Testing Guide
 
 ### Endpoint Overview
 - **Base URL**: `http://localhost:8000`
@@ -379,7 +379,7 @@ For detailed test cases and validation scenarios, see **[TEST_CASES.md](TEST_CAS
 - Validation checklist
 - Common issues and solutions
 
-##  API Response Format
+## API Response Format
 
 ### Successful Response
 ```json
@@ -436,7 +436,7 @@ For detailed test cases and validation scenarios, see **[TEST_CASES.md](TEST_CAS
 }
 ```
 
-##  Technical Implementation
+## Technical Implementation
 
 ### Amount Classification Rules
 
@@ -472,7 +472,7 @@ Common OCR mistakes automatically corrected:
 | EUR | €, EUR | Euro, European |
 | GBP | £, GBP | Pound, British |
 
-##  Error Handling & Troubleshooting
+## Error Handling & Troubleshooting
 
 ### Common Issues
 
@@ -498,7 +498,7 @@ Common OCR mistakes automatically corrected:
 | **Memory Usage** | <50MB | <200MB |
 | **Supported Formats** | UTF-8 text | PNG, JPG, JPEG, GIF, BMP, TIFF |
 
-##  Integration Examples
+## Integration Examples
 
 ### JavaScript/Fetch
 ```javascript
@@ -527,7 +527,7 @@ fetch('http://localhost:8000/extract-amounts', {
 ```
 
 
-##  Use Cases
+## Use Cases
 
 ### Healthcare Providers
 - Automated bill processing
@@ -547,7 +547,7 @@ fetch('http://localhost:8000/extract-amounts', {
 - Insurance submission
 - Personal finance management
 
-##  Development & Customization
+## Development & Customization
 
 ### Adding New Amount Types
 Modify the classification rules in `src/classifier.js`:
@@ -579,14 +579,14 @@ const preprocessImage = (imageBuffer) => {
 };
 ```
 
-##  License & Support
+## License & Support
 
 - **License**: MIT License
 - **Node.js Version**: 14+ recommended
 - **Dependencies**: See `package.json`
 - **Issues**: Check console logs for detailed error messages
 
-##  Quick Demo
+## Quick Demo
 
 ```bash
 # 1. Start server
