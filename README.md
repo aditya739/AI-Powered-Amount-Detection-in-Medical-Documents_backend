@@ -2,6 +2,26 @@
 
 A robust Node.js/Express backend service that extracts, normalizes, and classifies monetary values from medical bills using advanced pattern recognition and rule-based processing. Supports both image processing (via OCR) and direct text input with systematic error correction and context-aware classification.
 
+## Live Demo
+
+**Production API (Recommended):** `https://ai-powered-amount-detection-in-medical-wwxb.onrender.com`
+
+**Quick Test:**
+```bash
+curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
+  -F "text=Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%"
+```
+
+**Features:**
+- Text extraction (< 100ms)
+- Image OCR processing (2-5 seconds)
+- 24/7 uptime
+- No timeout limits
+
+**Alternative (Text-only, faster):** `https://ai-powered-amount-detection-in-medi-rho.vercel.app`
+
+---
+
 ## Table of Contents
 
 1. [Problem Statement](#-problem-statement)
@@ -267,45 +287,12 @@ bill-amount-extractor/
 
 ## Live Demo & Deployment
 
-### Production Deployment (Vercel - Text Only)
-
-**Base URL:** `https://ai-powered-amount-detection-in-medi-rho.vercel.app`
-
-**Available Endpoints:**
-- **Health Check:** `GET https://ai-powered-amount-detection-in-medi-rho.vercel.app/health`
-- **Text Extraction:** `POST https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts`
-
-**Important - Vercel Deployment Notes:**
-
-| Feature | Status | Details |
-|---------|--------|----------|
-| Text Extraction | Fully Working | Fast, reliable, < 1 second response |
-| Image Upload/OCR | Disabled | See explanation below |
-| Uptime | 24/7 | Production-ready |
-| Rate Limiting | None | Free tier |
-
-**Why is OCR Disabled on Vercel?**
-
-Vercel is a serverless platform optimized for fast, lightweight functions. OCR processing has technical limitations:
-
-1. **Timeout Constraint:** Vercel free tier has 10-second function timeout
-2. **OCR Processing Time:** Tesseract.js takes 30-60 seconds to process images
-3. **Cold Start Penalty:** First request adds 10-20 seconds delay
-4. **File System:** Serverless environment has read-only filesystem
-5. **Memory Limits:** OCR requires significant memory allocation
-
-**Result:** Text extraction works perfectly, but image OCR exceeds platform limits.
-
----
-
-### Full Feature Deployment (Render - Text + OCR)
+### Recommended: Render Deployment (Full Features)
 
 **Base URL:** `https://ai-powered-amount-detection-in-medical-wwxb.onrender.com`
 
-**Available Endpoints:**
-- **Health Check:** `GET https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/health`
-- **Text Extraction:** `POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts`
-- **Image Upload with OCR:** `POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts`
+**Main Endpoint:**
+- **Extract Amounts:** `POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts`
 
 **Full Feature Support:**
 
@@ -313,11 +300,32 @@ Vercel is a serverless platform optimized for fast, lightweight functions. OCR p
 |---------|--------|-------------|
 | Text Extraction | Working | < 100ms |
 | Image OCR | Working | 2-5 seconds |
-| File Uploads | Working | Supported |
+| File Uploads | Supported | All formats |
 | Timeout | None | No limits |
 | Uptime | 24/7 | Production-ready |
 
 **Note:** First request may take 30-60 seconds due to cold start (free tier). Subsequent requests are fast.
+
+---
+
+### Alternative: Vercel Deployment (Text Only - Faster)
+
+**Base URL:** `https://ai-powered-amount-detection-in-medi-rho.vercel.app`
+
+**Main Endpoint:**
+- **Extract Amounts:** `POST https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts`
+
+**Limitations:**
+
+| Feature | Status | Details |
+|---------|--------|----------|
+| Text Extraction | Working | Fast, reliable, < 1 second |
+| Image Upload/OCR | Disabled | Timeout constraints |
+| Uptime | 24/7 | Production-ready |
+
+**Why is OCR Disabled on Vercel?**
+
+Vercel serverless functions have a 10-second timeout (free tier). Tesseract.js OCR processing takes 30-60 seconds, exceeding platform limits. Use Render for full OCR support.
 
 ---
 
@@ -366,8 +374,8 @@ Vercel is a serverless platform optimized for fast, lightweight functions. OCR p
 
 | Deployment | Base URL | Text Support | Image/OCR Support |
 |------------|----------|--------------|-------------------|
+| **Render (Recommended)** | `https://ai-powered-amount-detection-in-medical-wwxb.onrender.com` | Yes | Yes (full support) |
 | **Vercel (Text Only)** | `https://ai-powered-amount-detection-in-medi-rho.vercel.app` | Yes | No (timeout issues) |
-| **Render (Full Features)** | `https://ai-powered-amount-detection-in-medical-wwxb.onrender.com` | Yes | Yes (full support) |
 | **Local Development** | `http://localhost:8000` | Yes | Yes (full support) |
 
 **Main Endpoints:**
@@ -380,18 +388,18 @@ Vercel is a serverless platform optimized for fast, lightweight functions. OCR p
 
 #### Test 1: Basic Text Extraction (Works on All Deployments)
 
-**Vercel (Text Only):**
+**Render (Recommended):**
 ```http
-POST https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts
+POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
 Content-Type: multipart/form-data
 
 Form Data:
 - text: "Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%"
 ```
 
-**Render (Full Features):**
+**Vercel (Text Only - Faster):**
 ```http
-POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
+POST https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts
 Content-Type: multipart/form-data
 
 Form Data:
@@ -409,9 +417,9 @@ Form Data:
 
 #### Test 2: Image Upload & OCR (Render/Local Only)
 
-**Not available on Vercel deployment** (use Render or local server)
+**Not available on Vercel** (use Render or local server)
 
-**Render (Recommended for Production):**
+**Render (Recommended):**
 ```http
 POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts
 Content-Type: multipart/form-data
@@ -462,13 +470,7 @@ Form Data:
 
 ### Testing with cURL
 
-**Vercel (Text-only):**
-```bash
-curl -X POST https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts \
-  -F "text=Total: INR 1200 | Paid: 1000 | Due: 200"
-```
-
-**Render (Full Features):**
+**Render (Recommended):**
 ```bash
 # Text extraction
 curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
@@ -477,6 +479,12 @@ curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/ex
 # Image upload with OCR
 curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts \
   -F "file=@/path/to/your/bill.jpg"
+```
+
+**Vercel (Text-only - Faster):**
+```bash
+curl -X POST https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts \
+  -F "text=Total: INR 1200 | Paid: 1000 | Due: 200"
 ```
 
 **Local Development:**
@@ -708,14 +716,7 @@ const preprocessImage = (imageBuffer) => {
 
 ## Quick Demo
 
-### Option 1: Test Production Deployment (Vercel - Text Only)
-
-```bash
-curl -X POST https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts \
-  -F "text=Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%"
-```
-
-### Option 2: Test Full Features (Render - Text + OCR)
+### Recommended: Test Render Deployment (Full Features)
 
 ```bash
 # Text extraction
@@ -748,17 +749,7 @@ curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/ex
 
 ### Quick Testing Guide
 
-**1. Test Text Extraction (Vercel - Fast):**
-- Open Postman
-- Method: `POST`
-- URL: `https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts`
-- Body: form-data
-  - Key: `text`
-  - Value: `Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%`
-- Click Send
-- Response time: < 1 second
-
-**2. Test Full Features with OCR (Render):**
+**Recommended: Test Full Features (Render):**
 - Open Postman
 - Method: `POST`
 - URL: `https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/extract-amounts`
@@ -768,15 +759,25 @@ curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/ex
 - Click Send
 - Response time: 2-5 seconds (first request may take 30-60 seconds due to cold start)
 
-**3. Why Two Deployments?**
+**Alternative: Test Text Only (Vercel - Faster):**
+- Open Postman
+- Method: `POST`
+- URL: `https://ai-powered-amount-detection-in-medi-rho.vercel.app/extract-amounts`
+- Body: form-data
+  - Key: `text`
+  - Value: `Total: INR 1200 | Paid: 1000 | Due: 200 | Discount: 10%`
+- Click Send
+- Response time: < 1 second
 
-| Feature | Vercel | Render |
-|---------|--------|--------|
+**Why Two Deployments?**
+
+| Feature | Render (Recommended) | Vercel (Alternative) |
+|---------|----------------------|----------------------|
 | **Text Extraction** | Fast & Reliable | Fast & Reliable |
-| **Image OCR** | Disabled (timeout) | Fully Supported |
+| **Image OCR** | Fully Supported | Disabled (timeout) |
 | **Uptime** | 24/7 | 24/7 |
-| **Speed** | < 1 second | 2-5 seconds (OCR) |
-| **Best For** | Production text API | Full feature demo |
+| **Speed** | 2-5 seconds (OCR) | < 1 second (text only) |
+| **Best For** | Full feature demo | Quick text extraction |
 
 **Technical Reason for Vercel Limitation:**
 - Vercel serverless functions have a 10-second timeout (free tier)
@@ -789,8 +790,8 @@ curl -X POST https://ai-powered-amount-detection-in-medical-wwxb.onrender.com/ex
 **Ready to extract amounts from your medical bills?** 
 
 **Next Steps:**
-1. Test the live Vercel API for text extraction
-2. Test the Render API for full OCR features
+1. Test the Render API for full features (text + OCR)
+2. Use Vercel API for faster text-only extraction
 3. Check [TEST_CASES.md](TEST_CASES.md) for comprehensive testing
 4. Run locally with `npm start` for development
 
