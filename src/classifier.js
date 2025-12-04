@@ -1,9 +1,9 @@
-// Enhanced keyword mapping for medical bills
+// Enhanced keyword mapping for medical bills with proper priority
 const PRIORITY_RULES = [
-    // High priority - main bill amounts
-    [['total', 'grand', 'final'], 'total_bill', 3],
-    [['paid', 'payment', 'received'], 'paid', 3],
+    // Highest priority - main bill amounts (order matters!)
+    [['total', 'grand', 'final'], 'total_bill', 4],
     [['due', 'balance', 'outstanding', 'pending'], 'due', 3],
+    [['paid', 'payment', 'received'], 'paid', 3],
     [['discount', '%'], 'discount', 2],
     [['tax', 'gst', 'vat'], 'tax', 2],
     
@@ -18,21 +18,29 @@ const PRIORITY_RULES = [
     [['immunization', 'vaccination', 'vaccine'], 'immunization', 1]
 ];
 
-function matchRule(context) {
-    const lowered = context.toLowerCase();
-    let bestMatch = { label: 'unknown', priority: 0 };
-    
-    for (const [keywords, label, priority] of PRIORITY_RULES) {
-        for (const keyword of keywords) {
-            if (lowered.includes(keyword)) {
-                if (priority > bestMatch.priority) {
-                    bestMatch = { label, priority };
-                }
+function matchRule(context, detectedLabel) {
+    const lowerContext = context.toLowerCase();
+    const lowerLabel = detectedLabel && detectedLabel !== 'unknown' ? detectedLabel.toLowerCase() : null;
+
+    // 1. Try to match detected label against rules
+    if (lowerLabel) {
+        for (const [keywords, type] of PRIORITY_RULES) {
+            if (keywords.includes(lowerLabel)) {
+                return type;
             }
+        }
+        // If label exists but not in rules, return it as is (legacy behavior)
+        return lowerLabel;
+    }
+
+    // 2. Fallback to context matching against rules
+    for (const [keywords, type] of PRIORITY_RULES) {
+        if (keywords.some(keyword => lowerContext.includes(keyword))) {
+            return type;
         }
     }
     
-    return bestMatch.label;
+    return 'unknown';
 }
 
 function classifyAmounts(extracted, normalized) {
@@ -53,7 +61,9 @@ function classifyAmounts(extracted, normalized) {
         if (idx < extracted.length) {
             const tokenInfo = extracted[idx];
             const context = `${tokenInfo.left || ''} ${tokenInfo.raw || ''} ${tokenInfo.right || ''}`;
-            label = matchRule(context);
+            
+            label = matchRule(context, tokenInfo.label);
+            
             hasMonetaryContext = tokenInfo.hasMonetaryContext || false;
         }
         

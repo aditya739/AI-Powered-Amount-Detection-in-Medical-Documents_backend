@@ -1,14 +1,6 @@
-// Simple and reliable patterns for monetary amounts and percentages
-const AMOUNT_PATTERN = /\b[lIOoSsBD]?\d+%|\b[lIOoSsBD]?\d+\b/g;
+// Pattern to capture Label: [Currency] Number (handles multi-word labels)
+const AMOUNT_PATTERN = /([A-Za-z]+(?:\s+[A-Za-z]+)*):\s*(?:INR|Rs\.?|₹|USD|\$|EUR|€|GBP|£)?\s*([lIOoSsBD]?\d+(?:,\d{3})*)(%)?/gi;
 const CURRENCY_PATTERN = /(?:INR|Rs|₹|USD|\$|EUR|€|GBP|£)/i;
-
-function captureContext(text, start, end, window = 15) {
-    const leftStart = Math.max(0, start - window);
-    const rightEnd = Math.min(text.length, end + window);
-    const left = text.substring(leftStart, start);
-    const right = text.substring(end, rightEnd);
-    return { left, right };
-}
 
 function extractAmounts(rawText) {
     const results = [];
@@ -18,13 +10,17 @@ function extractAmounts(rawText) {
     AMOUNT_PATTERN.lastIndex = 0;
     
     while ((match = AMOUNT_PATTERN.exec(rawText)) !== null) {
-        const token = match[0];
-        const context = captureContext(rawText, match.index, match.index + token.length);
-        
-        results.push({
-            raw: token,
-            ...context
-        });
+        if (match[1] && match[2]) {
+            const label = match[1].toLowerCase();
+            const token = match[2] + (match[3] || ''); // Add % if present
+            
+            results.push({
+                raw: token,
+                left: `${label}: `,
+                right: '',
+                label: label
+            });
+        }
     }
     
     return results;
